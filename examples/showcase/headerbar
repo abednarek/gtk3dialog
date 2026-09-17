@@ -1,0 +1,16 @@
+#!/bin/sh
+
+[ -z "$GTKDIALOG" ] && GTKDIALOG=gdlg3
+
+HEADERBAR_DEMO='<window title="GTK3 HeaderBar" width-request="420" height-request="180">
+  <headerbar subtitle="Separate client-side titlebar" show-close-button="true">
+    <button headerbar-pack="start"><label>Back</label><action>echo back</action></button>
+    <button headerbar-pack="end"><label>Done</label><action>exit:OK</action></button>
+  </headerbar>
+  <vbox>
+    <text><label>The window body and header actions remain independent.</label></text>
+  </vbox>
+</window>'
+export HEADERBAR_DEMO
+
+exec "$GTKDIALOG" --program HEADERBAR_DEMO

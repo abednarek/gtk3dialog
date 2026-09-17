@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "rows": [
+    {
+      "icon-name": "folder",
+      "values": ["Project actions", "project-actions"],
+      "style": {"font": "Sans Bold 9"},
+      "children": [
+        {
+          "icon-name": "document-open",
+          "values": ["Open project", "project-open"]
+        },
+        {
+          "icon-name": "document-save",
+          "values": ["<b>Save project</b>", "project-save"],
+          "markup": true,
+          "style": {"foreground": "#204a87"}
+        },
+        {
+          "icon-name": "dialog-warning",
+          "values": ["Offline action", "project-offline"],
+          "sensitive": false
+        }
+      ]
+    },
+    {
+      "icon-name": "dialog-information",
+      "values": ["System", "system"],
+      "children": [
+        {
+          "icon-name": "dialog-information",
+          "values": ["Preferences", "system-preferences"]
+        },
+        {
+          "icon-name": "application-exit",
+          "values": ["Quit", "system-quit"],
+          "style": {"foreground": "#a40000"}
+        }
+      ]
+    }
+  ]
+}

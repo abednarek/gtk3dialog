@@ -1,0 +1,35 @@
+#!/bin/sh
+
+GTKDIALOG=${GTKDIALOG:-gdlg3}
+
+TAB_TEMPLATE='<vbox>
+  <text><label>@INSTANCE@ has its own entry value</label></text>
+  <entry><default>Editable @INSTANCE@ text</default><variable>@INSTANCE@_ENTRY</variable></entry>
+  <button><label>Remove this page</label><action>removetab:@INSTANCE@</action></button>
+  <variable>@INSTANCE@_PAGE</variable>
+</vbox>'
+export TAB_TEMPLATE
+
+MAIN_DIALOG='<window title="Notebook XML templates" width-request="460">
+  <vbox spacing="8">
+    <notebook tab-close-buttons="true"><variable>DEMO_NOTEBOOK</variable></notebook>
+    <hbox>
+      <button><label>Add Alpha</label><action>appendtab:TAB_TEMPLATE:DEMO_NOTEBOOK:ALPHA:Alpha</action></button>
+      <button><label>Add Beta</label><action>appendtab:TAB_TEMPLATE:DEMO_NOTEBOOK:BETA:Beta</action></button>
+      <button><label>Remove Alpha</label><action>removetab:ALPHA</action></button>
+      <button><label>Remove Beta</label><action>removetab:BETA</action></button>
+    </hbox>
+    <hbox>
+      <button><label>Select Alpha</label><action>selecttab:ALPHA</action></button>
+      <button><label>Select Beta</label><action>selecttab:BETA</action></button>
+      <button><label>Add numbered page</label><action>appendtabauto:TAB_TEMPLATE:DEMO_NOTEBOOK:Page @INDEX@</action></button>
+    </hbox>
+    <button><label>Close</label><action>exit:OK</action></button>
+  </vbox>
+</window>'
+export MAIN_DIALOG
+
+case ${1:-} in
+  -d | --dump) printf '%s\n' "$MAIN_DIALOG" ;;
+  *) "$GTKDIALOG" --program=MAIN_DIALOG ;;
+esac

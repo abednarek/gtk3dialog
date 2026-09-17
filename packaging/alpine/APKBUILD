@@ -1,0 +1,28 @@
+# Maintainer: Artur Bednarek <artur@unix.org.pl>
+pkgname=gdlg3
+pkgver=0.9.1
+pkgrel=0
+pkgdesc="GTK3 dialog builder for shell scripts"
+url="https://github.com/abednarek/gtk3dialog"
+arch="all"
+license="GPL-2.0-or-later"
+depends="hicolor-icon-theme"
+makedepends="build-base gtk+3.0-dev json-glib-dev vte3-dev gtksourceview4-dev pkgconf"
+source="gtkdialog-$pkgver.tar.gz::$url/releases/download/$pkgver/gtkdialog-$pkgver.tar.gz"
+builddir="$srcdir/gtkdialog-$pkgver"
+
+build() {
+	pkg-config --exists json-glib-1.0
+	pkg-config --atleast-version=0.60.0 vte-2.91
+	mkdir -p "$builddir/build"
+	cd "$builddir/build"
+	../configure --prefix=/usr --with-gtksourceview
+	make
+}
+
+package() {
+	test -x "$builddir/build/src/gdlg3"
+	make -C "$builddir/build" DESTDIR="$pkgdir" install
+}
+
+sha512sums="f7e7e4f359d5023a397c6e85ad6e06ca78eeeab87c933c6f27e1b6651ad269fa57cf2cc98f0618cb3c2a5094d99fbb93be6e78bbb799c16964332126be782cd6  gtkdialog-$pkgver.tar.gz"

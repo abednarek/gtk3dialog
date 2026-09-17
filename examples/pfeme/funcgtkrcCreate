@@ -1,0 +1,85 @@
+#!/bin/sh
+
+## Includes.
+. functmpSet
+
+## Create a custom GTK3 CSS style for specific widgets.  The historical
+## function filename is retained because the example sources it by name.
+
+funcgtkrcCreate() {
+	if [ -z "$BASH" ]; then local FUNCNAME=funcgtkrcCreate; fi
+	if [ $DEBUG_TRANSITS -ne 0 ]; then echo "$FUNCNAME(): IN"; fi
+
+	FontCssDescriptor=$ReadmeFontName
+	FontCssFamily=${FontCssDescriptor% *}
+	FontCssSize=${FontCssDescriptor##* }
+	FontCssStyle=normal
+	FontCssWeight=normal
+	case $FontCssSize in
+		''|*[!0-9.]* ) FontCssFamily=$FontCssDescriptor; FontCssSize=10 ;;
+	esac
+	case $FontCssFamily in
+		*' Bold Italic') FontCssFamily=${FontCssFamily% Bold Italic}; FontCssStyle=italic; FontCssWeight=bold ;;
+		*' Bold Oblique') FontCssFamily=${FontCssFamily% Bold Oblique}; FontCssStyle=oblique; FontCssWeight=bold ;;
+		*' Bold') FontCssFamily=${FontCssFamily% Bold}; FontCssWeight=bold ;;
+		*' Italic') FontCssFamily=${FontCssFamily% Italic}; FontCssStyle=italic ;;
+		*' Oblique') FontCssFamily=${FontCssFamily% Oblique}; FontCssStyle=oblique ;;
+		*' Regular') FontCssFamily=${FontCssFamily% Regular} ;;
+	esac
+	ReadmeFontCssFamily=$FontCssFamily
+	ReadmeFontCssSize=$FontCssSize
+	ReadmeFontCssStyle=$FontCssStyle
+	ReadmeFontCssWeight=$FontCssWeight
+
+	FontCssDescriptor=$OutputFontName
+	FontCssFamily=${FontCssDescriptor% *}
+	FontCssSize=${FontCssDescriptor##* }
+	FontCssStyle=normal
+	FontCssWeight=normal
+	case $FontCssSize in
+		''|*[!0-9.]* ) FontCssFamily=$FontCssDescriptor; FontCssSize=10 ;;
+	esac
+	case $FontCssFamily in
+		*' Bold Italic') FontCssFamily=${FontCssFamily% Bold Italic}; FontCssStyle=italic; FontCssWeight=bold ;;
+		*' Bold Oblique') FontCssFamily=${FontCssFamily% Bold Oblique}; FontCssStyle=oblique; FontCssWeight=bold ;;
+		*' Bold') FontCssFamily=${FontCssFamily% Bold}; FontCssWeight=bold ;;
+		*' Italic') FontCssFamily=${FontCssFamily% Italic}; FontCssStyle=italic ;;
+		*' Oblique') FontCssFamily=${FontCssFamily% Oblique}; FontCssStyle=oblique ;;
+		*' Regular') FontCssFamily=${FontCssFamily% Regular} ;;
+	esac
+	OutputFontCssFamily=$FontCssFamily
+	OutputFontCssSize=$FontCssSize
+	OutputFontCssStyle=$FontCssStyle
+	OutputFontCssWeight=$FontCssWeight
+
+	functmpSet gtkdialog.css '
+#TabsImages {
+	background-color: #000000;
+}
+#TabReadme, #TabReadme text {
+	color: '$ReadmeForeground';
+	background-color: '$ReadmeBackground';
+	font-family: "'"$ReadmeFontCssFamily"'";
+	font-size: '$ReadmeFontCssSize'pt;
+	font-style: '$ReadmeFontCssStyle';
+	font-weight: '$ReadmeFontCssWeight';
+}
+#TabOutput, #TabOutput text {
+	color: '$OutputForeground';
+	background-color: '$OutputBackground';
+	font-family: "'"$OutputFontCssFamily"'";
+	font-size: '$OutputFontCssSize'pt;
+	font-style: '$OutputFontCssStyle';
+	font-weight: '$OutputFontCssWeight';
+}
+#AboutHeader {
+	background-color: #608080;
+}
+#HelpText {
+	font-family: monospace;
+}
+'
+	GTKDIALOG_STYLES=$TEMP_DIR/gtkdialog.css
+
+	if [ $DEBUG_TRANSITS -ne 0 ]; then echo "$FUNCNAME(): OUT"; fi
+}

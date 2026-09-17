@@ -1,0 +1,24 @@
+#!/bin/sh
+
+GTKDIALOG=${GTKDIALOG:-gdlg3}
+
+MAIN_DIALOG='<window title="Reorder notebook pages" width-request="380">
+  <vbox spacing="8">
+    <notebook tab-labels="First|Second|Third">
+      <vbox><text><label>Page one stays live when moved.</label></text><variable>FIRST_PAGE</variable></vbox>
+      <vbox><text><label>Page two stays live when moved.</label></text><variable>SECOND_PAGE</variable></vbox>
+      <vbox><text><label>Page three stays live when moved.</label></text><variable>THIRD_PAGE</variable></vbox>
+      <variable>PAGES</variable>
+    </notebook>
+    <hbox>
+      <button><label>Move first to end</label><action>reorderpage:FIRST_PAGE:2</action></button>
+      <button><label>Move first to start</label><action>reorderpage:FIRST_PAGE:0</action></button>
+    </hbox>
+  </vbox>
+</window>'
+export MAIN_DIALOG
+
+case ${1:-} in
+  -d | --dump) printf '%s\n' "$MAIN_DIALOG" ;;
+  *) "$GTKDIALOG" --program=MAIN_DIALOG ;;
+esac

@@ -1,0 +1,13 @@
+<!-- Run with: gdlg3 --file examples/miscellaneous/standalone_file -->
+
+<window>
+	<vbox>
+		<button>
+			<label>Xterm</label>
+			<action>xterm&</action>
+		</button>
+		<button>
+			<label>Exit</label>
+		</button>
+	</vbox>
+</window>

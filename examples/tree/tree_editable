@@ -1,0 +1,35 @@
+#!/bin/sh
+
+[ -z "$GTKDIALOG" ] && GTKDIALOG=gdlg3
+
+MAIN_DIALOG='
+<window title="Editable tree cells" width-request="440" height-request="240">
+	<vbox border-width="10" spacing="8">
+		<text>
+			<label>Select a row, then edit its task or type an owner name for completion.</label>
+		</text>
+		<tree column-editable="true|true" column-completion="false|true"
+			column-completion-minimum-key-length="1|1" exported-column="1">
+			<variable>EDITABLE_TREE</variable>
+			<label>Task|Owner</label>
+			<item completion-column="1">Ada Lovelace</item>
+			<item completion-column="1">Grace Hopper</item>
+			<item completion-column="1">Margaret Hamilton</item>
+			<item>Review changes|Ada</item>
+			<item>Update documentation|Linus</item>
+			<item>Prepare release|Grace</item>
+			<action signal="cell-edited">echo "Edited value: $EDITABLE_TREE"</action>
+		</tree>
+		<hbuttonbox layout-style="end">
+			<button cancel></button>
+			<button ok></button>
+		</hbuttonbox>
+	</vbox>
+</window>
+'
+export MAIN_DIALOG
+
+case $1 in
+	-d | --dump) printf '%s\n' "$MAIN_DIALOG" ;;
+	*) "$GTKDIALOG" --program=MAIN_DIALOG ;;
+esac

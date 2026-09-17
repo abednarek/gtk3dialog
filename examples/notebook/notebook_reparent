@@ -1,0 +1,39 @@
+#!/bin/sh
+
+GTKDIALOG=${GTKDIALOG:-gdlg3}
+
+MAIN_DIALOG='<window title="Move a notebook page" width-request="380">
+  <vbox spacing="8">
+    <notebook>
+      <variable>PAGES</variable>
+    </notebook>
+    <hbox>
+      <button>
+        <label>Move page into notebook</label>
+        <action>reparentwidget:PAGE:PAGES:Movable page</action>
+      </button>
+      <button>
+        <label>Move page into storage</label>
+        <action>reparentwidget:PAGE:STORAGE</action>
+      </button>
+      <button>
+        <label>Rename notebook tab</label>
+        <action>settablabel:PAGE:Renamed page</action>
+      </button>
+    </hbox>
+    <vbox visible="false">
+      <vbox>
+        <text><label>This page keeps its widget state when moved.</label></text>
+        <entry><variable>PAGE_TEXT</variable><default>Edit me</default></entry>
+        <variable>PAGE</variable>
+      </vbox>
+      <variable>STORAGE</variable>
+    </vbox>
+  </vbox>
+</window>'
+export MAIN_DIALOG
+
+case ${1:-} in
+  -d | --dump) printf '%s\n' "$MAIN_DIALOG" ;;
+  *) "$GTKDIALOG" --program=MAIN_DIALOG ;;
+esac

@@ -1,0 +1,29 @@
+#!/bin/sh
+
+GTKDIALOG=${GTKDIALOG:-gdlg3}
+script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+
+MAIN_DIALOG="<window title=\"GTK3 JSON menu\" width-request=\"360\">
+  <vbox>
+    <menubar>
+      <menu label=\"Static\">
+        <menuitem label=\"About this example\">
+          <action>echo Static XML menu item</action>
+        </menuitem>
+      </menu>
+      <input file format=\"json\">$script_dir/menubar_json.json</input>
+      <variable export=\"false\">JSON_MENUBAR</variable>
+    </menubar>
+    <text><label>Open Dynamic to try the JSON-backed menu.</label></text>
+    <button>
+      <label>Reload JSON menu</label>
+      <action>refresh:JSON_MENUBAR</action>
+    </button>
+  </vbox>
+</window>"
+export MAIN_DIALOG
+
+case ${1:-} in
+  -d | --dump) printf '%s\n' "$MAIN_DIALOG" ;;
+  *) "$GTKDIALOG" --program=MAIN_DIALOG ;;
+esac

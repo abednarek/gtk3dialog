@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "label": "Dynamic",
+      "items": [
+        {
+          "label": "Open",
+          "icon-name": "document-open",
+          "tooltip": "Generated from menubar_json.json",
+          "action": "echo Open selected"
+        },
+        {
+          "type": "separator"
+        },
+        {
+          "label": "Quit",
+          "action": "exit:quit"
+        }
+      ]
+    }
+  ]
+}

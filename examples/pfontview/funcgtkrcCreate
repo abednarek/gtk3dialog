@@ -1,0 +1,39 @@
+#!/bin/sh
+
+## Includes.
+. functmpSet
+
+## Create a custom GTK3 CSS style for specific widgets.  The historical
+## function filename is retained because the example sources it by name.
+
+funcgtkrcCreate() {
+	if [ -z "$BASH" ]; then local FUNCNAME=funcgtkrcCreate; fi
+	if [ $DEBUG_TRANSITS -ne 0 ]; then echo "$FUNCNAME(): IN"; fi
+	PreviewFontStyle=normal
+	PreviewFontWeight=normal
+	case $FontStyle in
+		*Italic*) PreviewFontStyle=italic ;;
+		*Oblique*) PreviewFontStyle=oblique ;;
+	esac
+	case $FontStyle in
+		*Bold*) PreviewFontWeight=bold ;;
+	esac
+
+	functmpSet gtkdialog.css '
+#BlackFg {
+	color: black;
+}
+#WhiteBg {
+	background-color: white;
+}
+#Preview {
+	font-family: "'"$FontFamily"'";
+	font-size: '$PreviewFontSize'pt;
+	font-style: '$PreviewFontStyle';
+	font-weight: '$PreviewFontWeight';
+}
+'
+	GTKDIALOG_STYLES=$TEMP_DIR/gtkdialog.css
+
+	if [ $DEBUG_TRANSITS -ne 0 ]; then echo "$FUNCNAME(): OUT"; fi
+}

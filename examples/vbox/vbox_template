@@ -1,0 +1,27 @@
+#!/bin/sh
+
+GTKDIALOG=${GTKDIALOG:-gdlg3}
+
+BOX_TEMPLATE='<vbox spacing="8">
+  <text><label>Page @INSTANCE@</label></text>
+  <entry><default>Editable value for @INSTANCE@</default><variable>@INSTANCE@_ENTRY</variable></entry>
+  <variable>@INSTANCE@_PAGE</variable>
+</vbox>'
+export BOX_TEMPLATE
+
+MAIN_DIALOG='<window title="Box XML templates" width-request="420">
+  <vbox spacing="8">
+    <hbox>
+      <button><label>Show first</label><action>replacebox:BOX_TEMPLATE:DEMO_BOX:FIRST</action></button>
+      <button><label>Show second</label><action>replacebox:BOX_TEMPLATE:DEMO_BOX:SECOND</action></button>
+    </hbox>
+    <vbox><text><label>Choose a page above.</label></text><variable>DEMO_BOX</variable></vbox>
+    <button><label>Close</label><action>exit:OK</action></button>
+  </vbox>
+</window>'
+export MAIN_DIALOG
+
+case ${1:-} in
+  -d | --dump) printf '%s\n' "$MAIN_DIALOG" ;;
+  *) "$GTKDIALOG" --program=MAIN_DIALOG ;;
+esac

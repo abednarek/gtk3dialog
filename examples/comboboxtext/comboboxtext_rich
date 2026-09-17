@@ -1,0 +1,32 @@
+#!/bin/sh
+
+[ -z "${GTKDIALOG:-}" ] && GTKDIALOG=gdlg3
+
+MAIN_DIALOG='
+<window title="Rich GTK3 combo box" width-request="420">
+	<vbox border-width="12" spacing="10">
+		<text xalign="0">
+			<label>"Visible labels can have icons and styles while the variable contains a stable value."</label>
+		</text>
+		<comboboxtext item-model="rich" icon-size="20">
+			<variable>RICH_CHOICE</variable>
+			<default>open</default>
+			<item value="open" icon-name="document-open" font="Sans Bold 9">Open document</item>
+			<item value="save" icon-name="document-save" foreground="#204a87">Save document</item>
+			<item value="review" icon-name="dialog-information" background="#e6f2ff">Review changes</item>
+			<item value="offline" icon-name="dialog-warning" sensitive="false">Offline action</item>
+			<action>echo "Selected value: $RICH_CHOICE"</action>
+		</comboboxtext>
+		<hbuttonbox>
+			<button ok></button>
+			<button cancel></button>
+		</hbuttonbox>
+	</vbox>
+</window>
+'
+export MAIN_DIALOG
+
+case ${1:-} in
+	-d | --dump) printf '%s\n' "$MAIN_DIALOG" ;;
+	*) "$GTKDIALOG" --program=MAIN_DIALOG ;;
+esac
